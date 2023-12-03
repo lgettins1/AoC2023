@@ -1,9 +1,8 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class AoCDay1 {public static void main(String [] args) throws FileNotFoundException {
+public class AoCDay1 {public static void main(String [] args) {
     int total = 0;
     int lineLength;
     String thisLine, lineStringVal;
@@ -25,12 +24,10 @@ public class AoCDay1 {public static void main(String [] args) throws FileNotFoun
                     sc = (char)c2;
                 }
             }
-            lineStringVal = Character.toString(fc) + Character.toString(sc);
+            lineStringVal = fc + Character.toString(sc);
             total += Integer.parseInt(lineStringVal);
         }
         System.out.println("Total is " + total);
-
-
     } catch (IOException e) {
         throw new RuntimeException(e);
     }
