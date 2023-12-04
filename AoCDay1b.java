@@ -12,30 +12,30 @@ public class AoCDay1b {
             BufferedReader br = new BufferedReader(new FileReader("c:/users/lance/documents/AoC23Day1input.txt"));
             while((thisLine = br.readLine()) != null){
                 lineLength = thisLine.length();
-                char fc = '!';
-                char sc = '!';
+                int fc = 99;
+                int sc = 99;
                 for(int a = 0; a < lineLength; a ++){
-                   if(fc == '!') fc = findNum(thisLine.substring(a));
-                   if(sc == '!') sc = findNum(thisLine.substring(lineLength - a - 1));
+                   if(fc == 99) fc = findNum(thisLine.substring(a));
+                   if(sc == 99) sc = findNum(thisLine.substring(lineLength - a - 1));
                 }
-                String lineVal = Character.toString(fc) + sc;
-                total += Integer.parseInt(lineVal);
+
+                total += (fc * 10) + sc;
             }
             System.out.println("Total is " + total);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static char findNum(String extra){
-        char a = '!';
+    public static int findNum(String extra){
+        int a = 99;
         String[] numList = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
         int c0 = extra.charAt(0);
         if(c0 > 47 && c0 < 58){
-            a = (char) c0;
+            a = c0 - 48;
         } else {
             for(int n = 0; n < 9; n ++){
                 if(extra.startsWith(numList[n])){
-                    a = (char) (n + 49);
+                    a = n + 1;
                 }
             }
         }
