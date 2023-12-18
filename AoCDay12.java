@@ -12,11 +12,11 @@ public class AoCDay12 {
             while ((thisLine = br.readLine()) != null) {
                 int[] numList = new int[50];
                 String[] line = thisLine.split(" ");
-                String[] nums = line[1].split(",");
-                int numCount = nums.length;
+                String[] n = line[1].split(",");
+                int numCount = n.length;
                 int numSum = 0;
-                for (int a = 0; a < numCount; a++) {
-                    numList[a] = Integer.parseInt(nums[a]);
+                for (int a = 0; a < numCount; a ++) {
+                    numList[a] = Integer.parseInt(n[a]);
                     numSum += numList[a];
                 }
                 int maxDot = line[0].length() - numSum + 1;
@@ -31,31 +31,35 @@ public class AoCDay12 {
                         }
                     }
                     d = b.length();
-                    boolean candidate =true;
+                    boolean candidate = true;
                     int len = 0;
+                    int dataLen = line[0].length();
+                    int[] dots = new int[d];
                     for(int e = 0; e < d; e ++){
-                        int mn = Integer.parseInt(convertNumberToNewBase(b.substring(e, e + 1),maxDot, 10));
-                        len += mn;
+                        dots[e] = Integer.parseInt(convertNumberToNewBase(b.substring(e, e + 1),maxDot, 10));
+                        len += dots[e];
                         if(e > 0 && e < d - 1 && b.charAt(e) == '0') candidate = false;
                     }
-                    if(numSum + len != line[0].length()) candidate = false;
-                    StringBuilder ourString = new StringBuilder();
-                    if(candidate){
-                        if(b.charAt(0) != '0'){
-                            int mn = Integer.parseInt(convertNumberToNewBase(b.substring(0, 1),maxDot, 10));
-                            ourString.append(".".repeat(Math.max(0, mn)));
-                        }
-                        for(int f = 0; f < numCount; f ++){
-                            ourString.append("#".repeat(Math.max(0, numList[f])));
-                            if(b.charAt(f + 1) != '0'){
-                                int mn = Integer.parseInt(convertNumberToNewBase(b.substring(f + 1, f + 2),maxDot, 10));
-                                ourString.append(".".repeat(Math.max(0, mn)));
-                            }
-
-                        }
+                    if(numSum + len != dataLen) candidate = false;
+                    if(candidate) {
+                        if (line[0].charAt(0) == '#' && b.charAt(0) != '0') candidate = false;
+                        if (line[0].charAt(0) == '.' && b.charAt(0) == '0') candidate = false;
+                        if (line[0].charAt(dataLen - 1) == '#' && b.charAt(d - 1) != '0') candidate = false;
+                        if (line[0].charAt(dataLen - 1) == '.' && b.charAt(d - 1) == '0') candidate = false;
                     }
-                    for(int f = 0; f < ourString.length(); f ++){
-                        if(ourString.charAt(f) != line[0].charAt(f) && line[0].charAt(f) != '?') candidate = false;
+                    if(candidate){
+                        StringBuilder ourString = new StringBuilder();
+                        if (b.charAt(0) != '0') ourString.append(".".repeat(Math.max(0, dots[0])));
+                        for (int f = 0; f < numCount; f ++) {
+                            ourString.append("#".repeat(Math.max(0, numList[f])));
+                            if (b.charAt(f + 1) != '0') ourString.append(".".repeat(Math.max(0, dots[f + 1])));
+                        }
+                        for (int f = 0; f < ourString.length(); f++) {
+                            if (ourString.charAt(f) != line[0].charAt(f) && line[0].charAt(f) != '?') {
+                                candidate = false;
+                                break;
+                            }
+                        }
                     }
                     if(candidate) {
                         answer ++;
