@@ -6,9 +6,9 @@ public class AoCDay12 {
 
     public static void main(String [] args) {
         String thisLine;
-        long answer = 0;
+        int answer = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("c:/users/lance/documents/AoC23Day12input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("c:/users/lance/documents/AoC23Day12inputd.txt"));
             while ((thisLine = br.readLine()) != null) {
                 int[] numList = new int[50];
                 String[] line = thisLine.split(" ");
@@ -30,29 +30,30 @@ public class AoCDay12 {
                             b.insert(0, "0");
                         }
                     }
-                    d = b.length();
                     boolean candidate = true;
                     int len = 0;
                     int dataLen = line[0].length();
-                    int[] dots = new int[d];
-                    for(int e = 0; e < d; e ++){
+                    int[] dots = new int[numCount + 1];
+                    for(int e = 0; e < numCount + 1; e ++){
                         dots[e] = Integer.parseInt(convertNumberToNewBase(b.substring(e, e + 1),maxDot, 10));
                         len += dots[e];
-                        if(e > 0 && e < d - 1 && b.charAt(e) == '0') candidate = false;
+                        if(e > 0 && e < numCount && b.charAt(e) == '0') candidate = false;
                     }
                     if(numSum + len != dataLen) candidate = false;
                     if(candidate) {
-                        if (line[0].charAt(0) == '#' && b.charAt(0) != '0') candidate = false;
-                        if (line[0].charAt(0) == '.' && b.charAt(0) == '0') candidate = false;
-                        if (line[0].charAt(dataLen - 1) == '#' && b.charAt(d - 1) != '0') candidate = false;
-                        if (line[0].charAt(dataLen - 1) == '.' && b.charAt(d - 1) == '0') candidate = false;
+                        if ((line[0].charAt(0) == '#' && b.charAt(0) != '0') ||
+                                (line[0].charAt(0) == '.' && b.charAt(0) == '0') ||
+                                (line[0].charAt(dataLen - 1) == '#' && b.charAt(numCount) != '0') ||
+                                (line[0].charAt(dataLen - 1) == '.' && b.charAt(numCount) == '0')){
+                            candidate = false;
+                        }
                     }
                     if(candidate){
                         StringBuilder ourString = new StringBuilder();
-                        if (b.charAt(0) != '0') ourString.append(".".repeat(Math.max(0, dots[0])));
+                        ourString.append(".".repeat(Math.max(0, dots[0])));
                         for (int f = 0; f < numCount; f ++) {
                             ourString.append("#".repeat(Math.max(0, numList[f])));
-                            if (b.charAt(f + 1) != '0') ourString.append(".".repeat(Math.max(0, dots[f + 1])));
+                            ourString.append(".".repeat(Math.max(0, dots[f + 1])));
                         }
                         for (int f = 0; f < ourString.length(); f++) {
                             if (ourString.charAt(f) != line[0].charAt(f) && line[0].charAt(f) != '?') {
@@ -65,6 +66,8 @@ public class AoCDay12 {
                         answer ++;
                     }
                 }
+                System.out.println(line[0] + answer);
+
             }
             System.out.println("The answer is " + answer);
         } catch (IOException e) {
