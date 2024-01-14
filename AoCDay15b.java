@@ -7,9 +7,9 @@ public class AoCDay15b {
     public static void main(String[] args) throws IOException {
         String thisLine;
         int answer = 0;
-        LinkedHashMap[] listOfHashes = new LinkedHashMap[256];
-        for(int a = 0; a < listOfHashes.length; a ++){
-            listOfHashes[a] = new LinkedHashMap<String, Integer>();
+        List<Map<String, Integer>> listOfHashmaps = new ArrayList<>();
+        for(int a = 0; a < 256; a ++){
+            listOfHashmaps.add(new LinkedHashMap<>());
         }
 
         try {
@@ -30,19 +30,18 @@ public class AoCDay15b {
                 }
                 int boxNum = hAlgo(lens);
                 if(add){
-                    listOfHashes[boxNum].put(lens, focal);
+                    listOfHashmaps.get(boxNum).put(lens, focal);
                 } else {
-                    listOfHashes[boxNum].remove(lens);
+                    listOfHashmaps.get(boxNum).remove(lens);
                 }
             }
-            int thisBoxVal;
-            for(int b = 0; b < 256; b ++){
-                thisBoxVal = 0;
-                ArrayList<String> listKeys  = new ArrayList<String>(listOfHashes[b].keySet());
-                for(int c = 0; c < listOfHashes[b].size(); c ++){
-                    if(listOfHashes[b].size() > 0) {
+           for(int b = 0; b < 256; b ++){
+                int thisBoxVal = 0;
+                ArrayList<String> listKeys  = new ArrayList<>(listOfHashmaps.get(b).keySet());
+                for(int c = 0; c < listOfHashmaps.get(b).size(); c ++){
+                    if(listOfHashmaps.get(b).size() > 0) {
                         String key = listKeys.get(c);
-                        int d = (int) listOfHashes[b].get(key);
+                        int d = listOfHashmaps.get(b).get(key);
                         thisBoxVal += (b + 1) * (c + 1) * d;
                     }
                 }
