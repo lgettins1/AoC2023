@@ -7,16 +7,16 @@ public class AoCDay15b {
     public static void main(String[] args) throws IOException {
         String thisLine;
         int answer = 0;
-        LinkedHashMap[]listOfHashes = new LinkedHashMap[256];
+        LinkedHashMap[] listOfHashes = new LinkedHashMap[256];
         for(int a = 0; a < listOfHashes.length; a ++){
-            listOfHashes[a] = new LinkedHashMap();
+            listOfHashes[a] = new LinkedHashMap<String, Integer>();
         }
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("c:/users/lance/documents/AoC23Day15input.txt"));
             thisLine = br.readLine();
             String[] steps = thisLine.split(",");
-            String lens = "";
+            String lens;
             int focal = 0;
             for (String step : steps) {
                 boolean add = true;
@@ -38,8 +38,7 @@ public class AoCDay15b {
             int thisBoxVal;
             for(int b = 0; b < 256; b ++){
                 thisBoxVal = 0;
-                Set keySet = listOfHashes[b].keySet();
-                List<String> listKeys  = new ArrayList<>(keySet);
+                ArrayList<String> listKeys  = new ArrayList<String>(listOfHashes[b].keySet());
                 for(int c = 0; c < listOfHashes[b].size(); c ++){
                     if(listOfHashes[b].size() > 0) {
                         String key = listKeys.get(c);
